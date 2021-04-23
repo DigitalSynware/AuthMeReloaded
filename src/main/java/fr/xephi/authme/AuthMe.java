@@ -218,7 +218,7 @@ public class AuthMe extends JavaPlugin {
         settings = injector.getSingleton(Settings.class);
         ConsoleLoggerFactory.reloadSettings(settings);
         OnStartupTasks.setupConsoleFilter(getLogger());
-
+        
         // Set all service fields on the AuthMe class
         instantiateServices(injector);
 
@@ -248,6 +248,9 @@ public class AuthMe extends JavaPlugin {
         bukkitService = injector.getSingleton(BukkitService.class);
         commandHandler = injector.getSingleton(CommandHandler.class);
         backupService = injector.getSingleton(BackupService.class);
+
+        //Start MongoDB connector
+        mongoDB = new MongoDB(settings);
 
         // Trigger instantiation (class not used elsewhere)
         injector.getSingleton(BungeeReceiver.class);
