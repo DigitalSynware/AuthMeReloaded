@@ -70,7 +70,7 @@ public class AuthMe extends JavaPlugin {
     private Injector injector;
     private BackupService backupService;
     private ConsoleLogger logger;
-    private MongoDB mongoDB;
+    public static MongoDB mongoDB;
 
     /**
      * Constructor.
