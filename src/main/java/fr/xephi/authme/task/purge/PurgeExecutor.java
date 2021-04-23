@@ -1,5 +1,6 @@
 package fr.xephi.authme.task.purge;
 
+import fr.xephi.authme.AuthMe;
 import fr.xephi.authme.ConsoleLogger;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
@@ -17,6 +18,7 @@ import java.io.File;
 import java.util.Collection;
 
 import static fr.xephi.authme.util.FileUtils.makePath;
+import org.bson.Document;
 
 /**
  * Executes the purge operations.
@@ -222,5 +224,21 @@ public class PurgeExecutor {
         }
 
         logger.info("AutoPurge: Removed permissions from " + cleared.size() + " player(s).");
+    }
+    
+    /**
+     * Removes data from minebox-premium-auth
+     * @param names list of players to clear
+     */
+    synchronized void purgeFromPremiumAuth(Collection<String> names){
+        for(String name : names){
+            Document doc = AuthMe.mongoDB.getDocumentFromOfflineName(name);
+            if(doc == null) continue;
+            boolean premiumEnabled = doc.getBoolean("premiumEnabled");
+            String authType = doc.getString("authType");
+            if(!premiumEnabled && authType.equals("VERIFIED")){
+                AuthMe.mongoDB.getCollection().deleteOne(doc);
+            }
+        }        
     }
 }
