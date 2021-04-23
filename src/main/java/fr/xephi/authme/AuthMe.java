@@ -20,6 +20,7 @@ import fr.xephi.authme.listener.PlayerListener19;
 import fr.xephi.authme.listener.PlayerListener19Spigot;
 import fr.xephi.authme.listener.ServerListener;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.premiumdatabase.MongoDB;
 import fr.xephi.authme.security.crypts.Sha256;
 import fr.xephi.authme.service.BackupService;
 import fr.xephi.authme.service.BukkitService;
@@ -69,6 +70,7 @@ public class AuthMe extends JavaPlugin {
     private Injector injector;
     private BackupService backupService;
     private ConsoleLogger logger;
+    private MongoDB mongoDB;
 
     /**
      * Constructor.
@@ -351,5 +353,9 @@ public class AuthMe extends JavaPlugin {
         } catch (Throwable ignore) {
             return "-";
         }
+    }
+
+    public MongoDB getMongoDB() {
+        return mongoDB;
     }
 }
